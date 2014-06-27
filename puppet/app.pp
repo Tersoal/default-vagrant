@@ -1,22 +1,45 @@
-Exec { path => ['/usr/local/bin', '/opt/local/bin', '/usr/bin', '/usr/sbin', '/bin', '/sbin'], logoutput => true }
+Exec { path => [
+    '/usr/local/bin',
+    '/opt/local/bin',
+    '/usr/bin',
+    '/usr/sbin',
+    '/bin',
+    '/sbin'
+], logoutput => true }
 Package { require => Exec['apt_update'], }
 
 class { 'apt':
-  always_apt_update    => true
+    always_apt_update => true
+}
+
+file { ["/dev/shm/symfony"]:
+    ensure => "directory"
+}
+
+file { ["/dev/shm/symfony/cache"]:
+    ensure => "directory"
+}
+
+file { ["/dev/shm/symfony/logs"]:
+    ensure => "directory"
 }
 
 import "app/*.pp"
 
 $webserverService = $webserver ? {
     apache2 => 'httpd',
-    nginx => 'nginx',
+    nginx   => 'nginx',
     default => 'nginx'
 }
 
 host { 'localhost':
     ip => '127.0.0.1',
-    host_aliases => ["localhost.localdomain",
-                     "localhost4", "localhost4.localdomain4", "$vhost.$domain"],
+    host_aliases => [
+      "localhost.localdomain",
+      "localhost4",
+      "localhost4.localdomain4",
+      "$vhost.$domain"
+    ],
     notify => Service[$webserverService],
 }
 
