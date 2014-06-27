@@ -1,15 +1,15 @@
 # Name of the vhost to create
 $vhost = "app"
-$domain = "dev"
+$domain = "localhost"
 
 # Path of the vhost
-$vhostpath = "/var/www/vhosts"
+$vhostpath = "/var/www"
 
 # Mysql
 $mysql_rootpassword = "app"
-$mysql_user = "app"
-$mysql_password = "app"
-$mysql_database = "app"
+$mysql_user = "root"
+$mysql_password = "123"
+$mysql_database = "symfony"
 
 
 # VM IP
@@ -19,7 +19,7 @@ $ip = "192.168.10.42"
 $use_nfs = true
 
 # Base box name
-$base_box = ""
+$base_box = "precise64"
 
 # Which webserver do you want to use?
 # Valid choices are "nginx" and "apache2"
