@@ -33,7 +33,7 @@ class app::webserver::nginxserver {
         vhost         => "$vhost.$domain",
         www_root      => "$vhostpath/$vhost.$domain/web",
         location      => '@rewriteindex',
-        rewrite_rules => ['^(.*)$ /app.php/$1 last'],
+        rewrite_rules => ['^(.*)$ /app_dev.php/$1 last'],
 
     }
 
@@ -63,5 +63,31 @@ class app::webserver::nginxserver {
         content => template("/vagrant/files/etc/nginx/conf.d/php5-fpm.nginx.conf"),
         require => [File["/etc/nginx/conf.d/"]],
         notify  => Service["php5-fpm", "nginx"],
+    }
+
+    nginx::resource::vhost { "phpmyadmin.$domain":
+        ensure      => 'present',
+        www_root    => "/usr/share/phpmyadmin",
+        index_files => [ 'index.php', 'index.html', 'index.htm'],
+        listen_port => '8081',
+        location_custom_cfg_prepend => [
+            'if (!-e $request_filename) {
+                rewrite ^/(.+)$ /index.php?url=$1 last;
+                break;
+            }'
+        ]
+    }
+
+    nginx::resource::location { 'location-phpmyadmin':
+        ensure              => present,
+        vhost               => "phpmyadmin.$domain",
+        location            => '~ .php$',
+        fastcgi             => "127.0.0.1:9000",
+        location_cfg_append => {
+            fastcgi_split_path_info => '^(.+\.php)(/.+)$',
+            fastcgi_index           => 'index.php',
+            include                 => 'fastcgi_params',
+            fastcgi_param           => 'SERVER_PORT $http_x_forwarded_port',
+        }
     }
 }

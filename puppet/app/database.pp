@@ -3,6 +3,10 @@ class app::mysql {
       user     => "$mysql_username",
       password => "$mysql_password",
     }
+
+    class { 'phpmyadmin':
+        require => Class['mysql'],
+    }
 }
 class app::database {
 include app::mysql
