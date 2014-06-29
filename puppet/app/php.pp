@@ -32,6 +32,8 @@ class app::php {
     if 'nginx' == $webserver {
         include app::php::fpm
     }
+
+    include composer
 }
 import "php/*.pp"
 
