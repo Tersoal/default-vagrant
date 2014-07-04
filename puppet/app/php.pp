@@ -33,6 +33,11 @@ class app::php {
         include app::php::fpm
     }
 
+    file {'/etc/php5/fpm/conf.d/my-php.ini':
+        ensure => 'present',
+        source => '/vagrant/files/etc/php5/fpm/conf.d/my-php.ini',
+    }
+
     include composer
 }
 import "php/*.pp"
