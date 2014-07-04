@@ -1,15 +1,15 @@
 class app::php {
-
-  case $::osfamily {
-    Redhat: {
-        $php_package = ["php", "php-dev", "php-mysql", "php-intl", "php-curl", "php-xdebug"]
-    }
-    Debian: {
-        $php_package = ["php5", "php5-cli", "php5-dev", "php5-mysql", "php5-intl", "php5-curl", "php5-xdebug"]
-    }
-  }
-
-    package { $php_package:
+    package {
+        [
+            "php5-cli",
+            # "php5-apcu",
+            "php5-mysql",
+            "php5-intl",
+            "php5-curl",
+            "php5-mcrypt",
+            "php5-xdebug",
+            "php5-memcached"
+        ]:
         ensure => present,
         notify => Service[$webserverService],
     }
@@ -33,13 +33,6 @@ class app::php {
         include app::php::fpm
     }
 
-    file {'/etc/php5/fpm/conf.d/my-php.ini':
-        ensure => 'present',
-        source => '/vagrant/files/etc/php5/fpm/conf.d/my-php.ini',
-    }
-
     include composer
 }
 import "php/*.pp"
-
-

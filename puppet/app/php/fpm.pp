@@ -20,6 +20,15 @@ class app::php::fpm {
         notify => Service["php5-fpm", "nginx"],
     }
 
+    file {'/etc/php5/fpm/conf.d/my-php.ini':
+        ensure  => 'present',
+        owner   => root,
+        group   => root,
+        source  => '/vagrant/files/etc/php5/fpm/conf.d/my-php.ini',
+        require => [File["/etc/php5/fpm/conf.d"]],
+        notify  => Service["php5-fpm", "nginx"],
+    }
+
     service {"php5-fpm":
         ensure => running,
         hasrestart => true,

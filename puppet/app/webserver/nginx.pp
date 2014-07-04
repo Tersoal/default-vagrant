@@ -33,27 +33,7 @@ class app::webserver::nginxserver {
         vhost         => "$vhost.$domain",
         www_root      => "$vhostpath/$vhost.$domain/web",
         location      => '@rewriteindex',
-        rewrite_rules => ['^(.*)$ /app.php/$1 last'],
-
-    }
-
-
-    nginx::resource::location { 'location-phpfpm':
-        ensure          => present,
-        ssl             => true,
-        vhost           => "$vhost.$domain",
-        www_root        => "$vhostpath/$vhost.$domain/web",
-        location        => '~ ^/(app|app_dev)\.php(/|$)',
-        proxy           => undef,
-        fastcgi         => '127.0.0.1:9000',
-        location_cfg_append => {
-            fastcgi_connect_timeout => '3m',
-            fastcgi_read_timeout    => '3m',
-            fastcgi_send_timeout    => '3m',
-            fastcgi_split_path_info => '^(.+\.php)(/.*)$',
-            include                 => 'fastcgi_params',
-            fastcgi_param           => 'SCRIPT_FILENAME $document_root$fastcgi_script_name',
-        }
+        rewrite_rules => ['^(.*)$ /app_dev.php/$1 last'],
     }
 
     nginx::resource::location { 'location':
@@ -62,9 +42,34 @@ class app::webserver::nginxserver {
         www_root            => "$vhostpath/$vhost.$domain/web",
         location            => '~ \.php$',
         proxy               => undef,
-        fastcgi             => '127.0.0.1:9000',
+        fastcgi             => "unix:/var/run/php5-fpm.sock",
         location_cfg_append => {
             include => 'fastcgi_params',
+        }
+    }
+
+    nginx::resource::location { 'location-uploads':
+        ensure    => present,
+        vhost     => "$vhost.$domain",
+        www_root  => "$vhostpath/$vhost.$domain/web",
+        location  => '~ ^/uploads/cache',
+        try_files => ['$uri', '@rewriteindex'],
+    }
+
+    nginx::resource::location { 'location-phpfpm':
+        ensure          => present,
+        ssl             => true,
+        vhost           => "$vhost.$domain",
+        www_root        => "$vhostpath/$vhost.$domain/web",
+        location        => '~ ^/(app|app_dev|app_test)\.php(/|$)',
+        proxy           => undef,
+        fastcgi         => "unix:/var/run/php5-fpm.sock",
+        location_cfg_append => {
+            fastcgi_connect_timeout => '3m',
+            fastcgi_read_timeout    => '3m',
+            fastcgi_send_timeout    => '3m',
+            fastcgi_split_path_info => '^(.+\.php)(/.*)$',
+            include                 => 'fastcgi_params',
         }
     }
 
