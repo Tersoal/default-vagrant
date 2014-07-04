@@ -60,3 +60,7 @@ include app::tools
 include app::database
 include app::ssl
 
+file { '/home/vagrant/.bash_aliases':
+    ensure => 'present',
+    source => '/vagrant/files/conf/dotfiles/.bash_aliases',
+}
