@@ -10,6 +10,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = $base_box
 
   config.vm.host_name = $vhost + "." + $domain
+  config.hostsupdater.aliases = ["phpmyadmin." + $domain]
 
   config.vm.network "private_network", ip: $ip
 
