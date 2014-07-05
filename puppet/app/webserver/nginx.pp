@@ -81,4 +81,30 @@ class app::webserver::nginxserver {
         require => [File['/etc/nginx/conf.d/']],
         notify  => Service['php5-fpm', 'nginx'],
     }
+
+    nginx::resource::vhost { "phpmyadmin.$domain":
+        ensure      => 'present',
+        www_root    => "/usr/share/phpmyadmin",
+        index_files => [ 'index.php', 'index.html', 'index.htm'],
+        location_custom_cfg_prepend => [
+            'if (!-e $request_filename) {
+                rewrite ^/(.+)$ /index.php?url=$1 last;
+                break;
+            }'
+        ]
+    }
+
+    nginx::resource::location { 'location-phpmyadmin':
+        ensure              => present,
+        www_root            => "/usr/share/phpmyadmin",
+        vhost               => "phpmyadmin.$domain",
+        location            => '~ .php$',
+        fastcgi             => "unix:/var/run/php5-fpm.sock",
+        location_cfg_append => {
+            fastcgi_split_path_info => '^(.+\.php)(/.+)$',
+            fastcgi_index           => 'index.php',
+            include                 => 'fastcgi_params',
+            fastcgi_param           => 'SERVER_PORT $http_x_forwarded_port',
+        }
+    }
 }
