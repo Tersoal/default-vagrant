@@ -25,7 +25,7 @@ class app::php::fpm {
         owner   => root,
         group   => root,
         source  => '/vagrant/files/etc/php5/fpm/conf.d/my-php.ini',
-        require => [File["/etc/php5/fpm/conf.d"]],
+        require => [Package["php5-fpm"]],
         notify  => Service["php5-fpm", "nginx"],
     }
 

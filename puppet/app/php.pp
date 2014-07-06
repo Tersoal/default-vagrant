@@ -3,12 +3,12 @@ class app::php {
         [
             "php5-cli",
             # "php5-apcu",
-            "php5-mysql",
             "php5-intl",
             "php5-curl",
             "php5-mcrypt",
             "php5-xdebug",
-            "php5-memcached"
+            "php5-memcached",
+            "php-pear",
         ]:
         ensure => present,
         notify => Service[$webserverService],
@@ -32,6 +32,8 @@ class app::php {
     if 'nginx' == $webserver {
         include app::php::fpm
     }
+
+    include app::php::phpqatools
 
     include composer
 }
