@@ -38,7 +38,8 @@ host { 'localhost':
       "localhost.localdomain",
       "localhost4",
       "localhost4.localdomain4",
-      "$vhost.$domain"
+      "$vhost.$domain",
+      "phpmyadmin.$domain"
     ],
     notify => Service[$webserverService],
 }

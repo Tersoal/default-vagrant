@@ -25,6 +25,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision :shell, :inline => 'echo -e "mysql_root_password=app
   controluser_password=123" > /etc/phpmyadmin.facts;'
 
+  # This solution is better but does not work properly
+  # config.vm.provision :shell, :inline => 'echo -e "mysql_root_password=' + $mysql_user +
+  # ' controluser_password=' + $mysql_password + '" > /etc/phpmyadmin.facts;'
+
   config.vm.provision :puppet do |puppet|
       puppet.manifests_path = "puppet"
       puppet.manifest_file  = "app.pp"
