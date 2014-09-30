@@ -5,9 +5,6 @@
 -   Install vagrant on your system
     see [vagrantup.com](http://docs.vagrantup.com/v2/getting-started/index.html)
 
--   Install vagrant-hostmaster on your system
-    see [mosaicxm/vagrant-hostmaster](https://github.com/mosaicxm/vagrant-hostmaster#installation)
-
 -   Install vagrant-hostupdater on your system
     see [cogitatio/vagrant-hostsupdater](https://github.com/cogitatio/vagrant-hostsupdater)
 

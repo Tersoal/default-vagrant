@@ -1,7 +1,7 @@
 class app::php::fpm {
     package { "php5-fpm":
         ensure => present,
-        notify => Service[$webserver],
+        notify => Service['nginx'],
     }
 
     file {'/etc/php5/fpm/conf.d/my-php.ini':
@@ -14,9 +14,9 @@ class app::php::fpm {
     }
 
     service {"php5-fpm":
-        ensure => running,
+        ensure     => running,
         hasrestart => true,
-        hasstatus => true,
-        require => [Package[php5-fpm]],
+        hasstatus  => true,
+        require    => [Package[php5-fpm]],
     }
 }

@@ -12,42 +12,18 @@ class { 'apt':
     always_apt_update => true
 }
 
-file { ["/dev/shm/symfony"]:
-    ensure => "directory"
-}
-
-file { ["/dev/shm/symfony/cache"]:
-    ensure => "directory"
-}
-
-file { ["/dev/shm/symfony/logs"]:
-    ensure => "directory"
-}
-
 import "app/*.pp"
 
-$webserverService = $webserver ? {
-    apache2 => 'httpd',
-    nginx   => 'nginx',
-    default => 'nginx'
-}
-
 host { 'localhost':
-    ip => '127.0.0.1',
-    host_aliases => [
-      "localhost.localdomain",
-      "localhost4",
-      "localhost4.localdomain4",
-      "$vhost.$domain",
-      "phpmyadmin.$domain"
-    ],
-    notify => Service[$webserverService],
+    ip           => '127.0.0.1',
+    host_aliases => ["$vhost.$domain", "phpmyadmin.$domain"],
+    notify       => Service['nginx'],
 }
 
 class { "mysql": }
 class { "mysql::server":
     config_hash => {
-        "root_password" => "$mysql_rootpassword",
+        "root_password"     => "$mysql_rootpassword",
         "etc_root_password" => true,
     }
 }
@@ -56,10 +32,15 @@ Mysql::Db {
 }
 
 include app::php
-include app::webserver
+include app::server
 include app::tools
 include app::database
 include app::ssl
+
+if $is_symfony_env == 'true' {
+    import "app/env/symfony.pp"
+    include app::symfony
+}
 
 file { '/home/vagrant/.bash_aliases':
     ensure => present,

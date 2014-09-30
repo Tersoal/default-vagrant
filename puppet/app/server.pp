@@ -1,19 +1,6 @@
-class app::webserver::nginxserver {
+class app::server {
     require app::ssl
     class { 'nginx': }
-
-    case $::osfamily {
-        Redhat: {
-            $apache2_package = "httpd"
-        }
-        Debian: {
-            $apache2_package = "apache2"
-        }
-    }
-
-    package {"$apache2_package":
-        ensure => purged,
-    }
 
     nginx::resource::vhost { "$vhost.$domain":
         ensure      => 'present',

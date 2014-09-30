@@ -9,7 +9,7 @@ class app::mysql {
     }
 }
 class app::database {
-include app::mysql
+    include app::mysql
 
     exec {"manage-database":
         require => [Package["php5-cli"], Class["app::mysql"]],
