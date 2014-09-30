@@ -11,4 +11,4 @@ $mysql_user         = "root"
 $mysql_password     = "123"
 $mysql_database     = "database"
 
-$is_symfony_env     = yes
+$is_symfony_env     = true
