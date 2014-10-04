@@ -3,6 +3,7 @@ $domain             = "localhost"
 $vhostpath          = "/var/www"
 
 $ip                 = "192.168.10.42"
+$port               = 8080
 $use_nfs            = true
 $base_box           = "precise64"
 

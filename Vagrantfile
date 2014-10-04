@@ -10,6 +10,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.hostsupdater.aliases = ["phpmyadmin." + $domain]
 
     config.vm.network "private_network", ip: $ip
+    config.vm.network "forwarded_port", guest: 80, host: $port
 
     config.vm.synced_folder  "../", $vhostpath + "/" + $vhost + "." + $domain, type: "nfs"
 
