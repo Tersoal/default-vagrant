@@ -1,85 +1,94 @@
-# My Vagrant/Puppet Default Setup 
+<h1>
+    <a href="url"><img src="http://upload.wikimedia.org/wikipedia/commons/8/87/Vagrant.png" align="left" height="48" ></a>
+    &nbsp;&nbsp;
+    Puppet Vagrant VM
+</h1>
+> This VM is focused on PHP development but also has different environments that provides some other useful tools.
 
-## Setup
+This box contains the following:
+* PHP-FPM 5.6 with the following extensions:
+    - php5-cli
+    - php5-intl
+    - php5-curl
+    - php5-mcrypt
+    - php-pear
+    - php5-xdebug
+* Nginx with SSL support
+* MySQL
+* phpMyAdmin
+* PostgreSQL
+* Composer
 
--   Install vagrant on your system
-    see [vagrantup.com](http://docs.vagrantup.com/v2/getting-started/index.html)
+Prerequisites
+-------------
 
--   Install vagrant-hostupdater on your system
-    see [cogitatio/vagrant-hostsupdater](https://github.com/cogitatio/vagrant-hostsupdater)
+* Install [Vagrant](http://docs.vagrantup.com/v2/installation/index.html) on your system, which in turn requires [RubyGems](https://rubygems.org/pages/download) and [VirtualBox](https://www.virtualbox.org/wiki/Downloads).
 
--   Get a base box with puppet support
-    see [vagrantup.com docs](http://docs.vagrantup.com/v2/getting-started/boxes.html)
+*NOTE: If you are on Windows, I would recommend [RubyInstaller](http://rubyinstaller.org/) for installing Ruby and any ssh client as [PuTTY](http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html) for log into your Vagrant box.*
 
--   Get a custom box with puppet support
-    see [pigri/vagrantboxes](https://github.com/pigri/vagrant-boxes)
-
--   Get a copy of this repository. You can do this either by integrating it as a git submodule or by just checking it out and copying the files. 
-    Prefarably, the contents of this repository should be placed in a directory `vagrant` inside your project's root dir.
-
--   Copy `vagrant/Personalization.dist` to `vagrant/Personalization` and modify `vagrant/Personalization` according to your needs.
-
-    Example:
-    ```ruby
-    # Name of the vhost to create
-    $vhost = "myapp"
-    $domain = "localhost"
-
-    # Path of the vhost
-    $vhostpath = "/var/www"
-
-    # Mysql
-    $mysql_rootpassword = "app"
-    $mysql_user = "root"
-    $mysql_password = "123"
-    $mysql_database = "symfony"
-
-
-    # VM IP
-    $ip = "192.168.10.42"
-
-    # Use NFS?
-    $use_nfs = true
-
-    # Base box name - Get one that supports puppet
-    $base_box = "http://files.vagrantup.com/precise64.box"
-
-    # Which webserver do you want to use?
-    # Valid choices are "nginx" and "apache2"
-    #
-    # Note: nginx implies the use of php-fpm
-    $webserver = "nginx"
-    ```
-        
-    -   Execute "vagrant up" in the directory vagrant.
+* For simplified the usage of this box, you should install **[vagrant-hostsupdater](https://github.com/cogitatio/vagrant-hostsupdater)** plugin for Vagrant, which adds an entry to your `/etc/hosts` file on the host system and **[vagrant-vbguest](https://github.com/dotless-de/vagrant-vbguest)** plugin which automatically installs the host's VirtualBox Guest Additions on the guest system.
+```
+vagrant plugin install vagrant-hostsupdater
+vagrant plugin install vagrant-vbguest
+```
     
-## NEWS 
-- Add jfryman/nginx module
-- Dropped old nginx module
-- PHPFPM slow querylog
-- New tools package from tcpdump
-- PHPMyAdmin available
 
-## Archive
-- Nginx SSL support
-- Vagrant v2 support
-- Automatic ssl certificate generation
-- Custom domain support
-- Apache SSL support
-- Apache & Stdlib module upgrade
-- New concat module
-- MySQL custom user, password, database support
-- MySQL custom root password
-- Xdebug support only phpfpm
-- Small bugfix
+Getting started
+---------------
 
+The recommended way to clone this VM is using the following command because you have to clone the *git submodules*
+too:
 
+    git clone --recursive https://github.com/benatespina/default-vagrant.git vagrant
 
-## Infrastructure
+Then, you have to duplicate the `Personalization.dist` in the same directory but without
+extension, modifying the values with your favorite preferences. The following configuration is by default:
 
-After performing the steps listed above, you will have the following environment set up:
+```
+$vhost                  = "app"
+$domain                 = "localhost"
+$vhostpath              = "/var/www"
 
-- A running virtual machine with your project on it
-- Your project directory will be mounted as a shared folder in this virtual machine
-- Your project will be accessible via a browser (go to `http://{$vhost}.{$domain}/[app_dev.php]` or `https://{$vhost}.{$domain}/[app_dev.php]` )
-- You can now start customizing the new virtual machine. In most cases, the machine should correspond to the infrastructure your production server(s) provide.
+$ip                     = "192.168.10.42"
+$port                   = 8080
+$use_nfs                = true
+$base_box               = "precise64"
+
+$database_rootpassword  = "app"
+$database_user          = "root"
+$database_password      = "123"
+$database_name          = "database"
+
+$database               = "mysql"
+
+$cpu                    = "1"
+$memory                 = "512"
+
+$is_symfony_env         = false
+```
+
+Then, you have to build the *Vagrant* machine and then, you have to connect via **ssh** to the VM with the following commands:
+
+    vagrant up
+    vagran ssh
+
+That's all! Now you can type your hostname in your favorite browser as this:
+
+    app.localhost
+
+Besides, if you want to access to phpMyAdmin you can do typing the following url in the browser:
+
+    phpmyadmin.localhost
+
+*NOTE: I am pretty sure that it works fine, but in case that not, I have recollected on [TROUBLESHOOTING.md](https://github.com/benatespina/default-vagrant/blob/master/TROUBLESHOOTING.md) most of typical errors about Vagrant.*
+
+    
+Credits
+-------
+This is a fork of [pigri](https://github.com/pigri)'s
+[default-vagrant](https://github.com/pigri/default-vagrant) project.
+
+Created by **benatespina** - [benatespina@gmail.com](mailto:benatespina@gmail.com).
+Copyright (c) 2014
+
+[![License](http://img.shields.io/:license-mit-green.svg)](http://doge.mit-license.org)
