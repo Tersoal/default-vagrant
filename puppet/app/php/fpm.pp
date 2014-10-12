@@ -13,7 +13,7 @@ class app::php::fpm {
         notify  => Service["php5-fpm", "nginx"],
     }
 
-    service {"php5-fpm":
+    service { "php5-fpm":
         ensure     => running,
         hasrestart => true,
         hasstatus  => true,

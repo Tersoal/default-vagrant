@@ -1,15 +1,20 @@
-$vhost              = "app"
-$domain             = "localhost"
-$vhostpath          = "/var/www"
+$vhost                  = "app"
+$domain                 = "localhost"
+$vhostpath              = "/var/www"
 
-$ip                 = "192.168.10.42"
-$port               = 8080
-$use_nfs            = true
-$base_box           = "precise64"
+$ip                     = "192.168.10.42"
+$port                   = 8080
+$use_nfs                = true
+$base_box               = "precise64"
 
-$mysql_rootpassword = "app"
-$mysql_user         = "root"
-$mysql_password     = "123"
-$mysql_database     = "database"
+$database_rootpassword  = "app"
+$database_user          = "root"
+$database_password      = "123"
+$database_name          = "database"
 
-$is_symfony_env     = true
+$database               = "mysql"
+
+$cpu                    = "1"
+$memory                 = "512"
+
+$is_symfony_env         = false

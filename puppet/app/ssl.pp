@@ -14,4 +14,3 @@ class app::ssl {
         force        => false,
     }
 }
-

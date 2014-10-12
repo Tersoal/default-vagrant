@@ -20,17 +20,6 @@ host { 'localhost':
     notify       => Service['nginx'],
 }
 
-class { "mysql": }
-class { "mysql::server":
-    config_hash => {
-        "root_password"     => "$mysql_rootpassword",
-        "etc_root_password" => true,
-    }
-}
-Mysql::Db {
-    require => Class['mysql::server', 'mysql::config'],
-}
-
 include app::php
 include app::server
 include app::tools

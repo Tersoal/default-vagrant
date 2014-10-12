@@ -11,6 +11,9 @@
 -   Get a base box with puppet support
     see [vagrantup.com docs](http://docs.vagrantup.com/v2/getting-started/boxes.html)
 
+-   Get a custom box with puppet support
+    see [pigri/vagrantboxes](https://github.com/pigri/vagrant-boxes)
+
 -   Get a copy of this repository. You can do this either by integrating it as a git submodule or by just checking it out and copying the files. 
     Prefarably, the contents of this repository should be placed in a directory `vagrant` inside your project's root dir.
 
