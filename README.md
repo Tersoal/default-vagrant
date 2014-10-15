@@ -19,6 +19,11 @@ This box contains the following:
 * PostgreSQL
 * Composer
 
+ENVIRONMENTS
+------------
+* Symfony
+* Ruby (For now, this is installed by default, because it only contains *Sass* and *Compass*)
+
 Prerequisites
 -------------
 

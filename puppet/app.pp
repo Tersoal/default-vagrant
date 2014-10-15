@@ -25,11 +25,7 @@ include app::server
 include app::tools
 include app::database
 include app::ssl
-
-if $is_symfony_env == true {
-    import "app/env/symfony.pp"
-    include app::symfony
-}
+include app::env
 
 file { '/home/vagrant/.bash_aliases':
     ensure => present,

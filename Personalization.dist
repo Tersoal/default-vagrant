@@ -17,4 +17,5 @@ $database               = "mysql"
 $cpu                    = "1"
 $memory                 = "512"
 
-$is_symfony_env         = false
+######## ENVIRONMENTS ########
+$symfony = false

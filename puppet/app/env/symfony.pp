@@ -1,4 +1,4 @@
-class app::symfony {
+class app::env::symfony {
     file { ["/dev/shm/symfony"]:
         ensure => "directory"
     }
