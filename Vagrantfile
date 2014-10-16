@@ -1,5 +1,5 @@
-personalization = File.expand_path("../Personalization", __FILE__)
-load personalization
+parameters = File.expand_path("../parameters.yml", __FILE__)
+load parameters
 
 VAGRANTFILE_API_VERSION = "2"
 
@@ -41,7 +41,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             "database_password"     => $database_password,
             "database_name"         => $database_name,
             "database"              => $database,
-            "is_symfony_env"        => $is_symfony_env
+            "symfony"               => $symfony
         }
     end
 end

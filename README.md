@@ -21,8 +21,8 @@ This box contains the following:
 
 ENVIRONMENTS
 ------------
-* Symfony
-* Ruby (For now, this is installed by default, because it only contains *Sass* and *Compass*)
+* Symfony (launches some useful commands about **cache and logs permissions** or about **Doctrine** when the machine is booting)
+* Ruby (For now, this is installed by default, because it only contains **Sass** and **Compass**)
 
 Prerequisites
 -------------
@@ -46,7 +46,7 @@ too:
 
     git clone --recursive https://github.com/benatespina/default-vagrant.git vagrant
 
-Then, you have to duplicate the `Personalization.dist` in the same directory but without
+Then, you have to duplicate the `parameters.yml.dist` in the same directory but without `.dist`
 extension, modifying the values with your favorite preferences. The following configuration is by default:
 
 ```
@@ -69,7 +69,8 @@ $database               = "mysql"
 $cpu                    = "1"
 $memory                 = "512"
 
-$is_symfony_env         = false
+######## ENVIRONMENTS ########
+$symfony = false
 ```
 
 Then, you have to build the *Vagrant* machine and then, you have to connect via **ssh** to the VM with the following commands:
