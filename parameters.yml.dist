@@ -1,21 +1,26 @@
-$vhost                  = "app"
-$domain                 = "localhost"
-$vhostpath              = "/var/www"
+virtual_machine:
+    vhost:      app
+    domain:     localhost
+    vhostpath:  /var/www
+    ip:         192.168.10.42
+    port:       8080
+    use_nfs:    true
+    box:        precise64
+    cpu:        1
+    memory:     512
 
-$ip                     = "192.168.10.42"
-$port                   = 8080
-$use_nfs                = true
-$base_box               = "precise64"
+database:
+    mysql:
+        rootpassword: app
+        user:         root
+        password:     123
+        name:         mysql-database
 
-$database_rootpassword  = "app"
-$database_user          = "root"
-$database_password      = "123"
-$database_name          = "database"
+    postgresql:
+        rootpassword: app
+        user:         root
+        password:     123
+        name:         postgresql-database
 
-$database               = "mysql"
-
-$cpu                    = "1"
-$memory                 = "512"
-
-######## ENVIRONMENTS ########
-$symfony = false
+environments:
+    symfony: false

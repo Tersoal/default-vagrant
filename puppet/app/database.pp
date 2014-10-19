@@ -1,7 +1,9 @@
 class app::database {
-    if 'mysql' == "$database" {
+    if $mysql_is_defined == 'true' {
         include app::database::mysql
-    } else {
+    }
+
+    if $postgresql_is_defined == 'true' {
         include app::database::postgresql
     }
 }

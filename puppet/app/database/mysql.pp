@@ -5,7 +5,7 @@ class app::database::mysql {
         }
     }
     class { "mysql::server":
-        root_password    => $database_rootpassword,
+        root_password    => $mysql_rootpassword,
         override_options => $override_options,
     }
 
@@ -25,9 +25,9 @@ class app::database::mysql {
         user       => 'root@%',
     }
 
-    mysql::db { "$database_name":
-        user     => "$database_username",
-        password => "$database_password",
+    mysql::db { "$mysql_db_name":
+        user     => "$mysql_username",
+        password => "$mysql_password",
     }
 
     class { 'phpmyadmin':

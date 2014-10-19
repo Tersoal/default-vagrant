@@ -50,27 +50,32 @@ Then, you have to duplicate the `parameters.yml.dist` in the same directory but 
 extension, modifying the values with your favorite preferences. The following configuration is by default:
 
 ```
-$vhost                  = "app"
-$domain                 = "localhost"
-$vhostpath              = "/var/www"
+virtual_machine:
+    vhost:      app
+    domain:     localhost
+    vhostpath:  /var/www
+    ip:         192.168.10.42
+    port:       8080
+    use_nfs:    true
+    box:        precise64
+    cpu:        1
+    memory:     512
 
-$ip                     = "192.168.10.42"
-$port                   = 8080
-$use_nfs                = true
-$base_box               = "precise64"
+database:
+    mysql:
+        rootpassword: app
+        user:         root
+        password:     123
+        name:         mysql-database
 
-$database_rootpassword  = "app"
-$database_user          = "root"
-$database_password      = "123"
-$database_name          = "database"
+    postgresql:
+        rootpassword: app
+        user:         root
+        password:     123
+        name:         postgresql-database
 
-$database               = "mysql"
-
-$cpu                    = "1"
-$memory                 = "512"
-
-######## ENVIRONMENTS ########
-$symfony = false
+environments:
+    symfony: false
 ```
 
 Then, you have to build the *Vagrant* machine and then, you have to connect via **ssh** to the VM with the following commands:
@@ -82,7 +87,7 @@ That's all! Now you can type your hostname in your favorite browser as this:
 
     app.localhost
 
-Besides, if you want to access to phpMyAdmin you can do typing the following url in the browser:
+Besides, if you have activated the *MySQL* database you can access to *phpMyAdmin* typing the following url in the browser:
 
     phpmyadmin.localhost
 
