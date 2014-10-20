@@ -51,6 +51,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         postgresql_db_name      = ''
     end
 
+    if defined?(parameters['database']['mongodb']) && (parameters['database']['mongodb'] != '') && (parameters['database']['mongodb'] != nil) then
+        mongodb_is_defined = 'true'
+        mongodb_db_name    = parameters['database']['mongodb']['name']
+    else
+        mongodb_is_defined = 'false'
+        mongodb_db_name    = ''
+    end
+
 
     config.vm.provision :puppet do |puppet|
         puppet.manifests_path = "puppet"
@@ -78,6 +86,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             "postgresql_user"         => postgresql_user,
             "postgresql_password"     => postgresql_password,
             "postgresql_db_name"      => postgresql_db_name,
+
+            "mongodb_is_defined"   => mongodb_is_defined,
+            "mongodb_db_name"      => mongodb_db_name,
 
 
             "symfony" => parameters['environments']['symfony']

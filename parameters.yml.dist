@@ -15,12 +15,13 @@ database:
         user:         root
         password:     123
         name:         mysql-database
-
     postgresql:
         rootpassword: app
         user:         root
         password:     123
         name:         postgresql-database
+    mongodb:
+        name: mongo
 
 environments:
     symfony: false

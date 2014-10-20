@@ -12,12 +12,13 @@ This box contains the following:
     - php5-curl
     - php5-mcrypt
     - php-pear
-    - php5-xdebug
 * Nginx with SSL support
 * MySQL
 * phpMyAdmin
 * PostgreSQL
+* MongoDB *(The php-mongo driver is not available yet; there are some troubles with the PHP-5.6)*
 * Composer
+* XDebug
 
 ENVIRONMENTS
 ------------
@@ -73,6 +74,8 @@ database:
         user:         root
         password:     123
         name:         postgresql-database
+    mongodb:
+        name: mongo
 
 environments:
     symfony: false
