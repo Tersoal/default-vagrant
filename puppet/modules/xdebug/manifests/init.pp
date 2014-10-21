@@ -1,5 +1,5 @@
 class xdebug (
-  $service              = "httpd",
+  $service              = "nginx",
   $ini_file_path        = $xdebug::params::ini_file_path,
   $default_enable       = $xdebug::params::default_enable,
   $remote_enable        = $xdebug::params::remote_enable,
