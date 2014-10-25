@@ -59,6 +59,26 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         mongodb_db_name    = ''
     end
 
+    if defined?(parameters['environments']['ruby']['sass']) && (parameters['environments']['ruby']['sass'] != '') && (parameters['environments']['ruby']['sass'] != nil) && (parameters['environments']['ruby']['sass'] != 'latest')
+    then
+        sass_version = parameters['environments']['ruby']['sass']
+    else
+        sass_version = 'installed'
+    end
+
+    if defined?(parameters['environments']['ruby']['compass']) && (parameters['environments']['ruby']['compass'] != '') && (parameters['environments']['ruby']['compass'] != nil) && (parameters['environments']['ruby']['compass'] != 'latest')
+    then
+        compass_version = parameters['environments']['ruby']['compass']
+    else
+        compass_version = 'installed'
+    end
+
+    if defined?(parameters['environments']['symfony']) && (parameters['environments']['symfony'] != '') && (parameters['environments']['symfony'] != nil)
+    then
+        symfony = parameters['environments']['symfony']
+    else
+        symfony = 'false'
+    end
 
     config.vm.provision :puppet do |puppet|
         puppet.manifests_path = "puppet"
@@ -90,8 +110,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             "mongodb_is_defined"   => mongodb_is_defined,
             "mongodb_db_name"      => mongodb_db_name,
 
+            "sass_version"    => sass_version,
+            "compass_version" => compass_version,
 
-            "symfony" => parameters['environments']['symfony']
+            "symfony" => symfony
         }
     end
 end

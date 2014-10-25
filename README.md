@@ -23,7 +23,7 @@ This box contains the following:
 ENVIRONMENTS
 ------------
 * Symfony (launches some useful commands about **cache and logs permissions** or about **Doctrine** when the machine is booting)
-* Ruby (For now, this is installed by default, because it only contains **Sass** and **Compass**)
+* Ruby (contains **Sass** and **Compass**; by default they are installed, but if you want to customize the version you can do it easily seeing the configuration below)
 
 Prerequisites
 -------------
@@ -42,12 +42,7 @@ vagrant plugin install vagrant-vbguest
 Getting started
 ---------------
 
-The recommended way to clone this VM is using the following command because you have to clone the *git submodules*
-too:
-
-    git clone --recursive https://github.com/benatespina/default-vagrant.git vagrant
-
-Then, you have to duplicate the `parameters.yml.dist` in the same directory but without `.dist`
+Firstly, you have to duplicate the `parameters.yml.dist` in the same directory but without `.dist`
 extension, modifying the values with your favorite preferences. The following configuration is by default:
 
 ```
@@ -78,6 +73,9 @@ database:
         name: mongo
 
 environments:
+    ruby:
+        sass:    latest
+        compass: latest
     symfony: false
 ```
 

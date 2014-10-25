@@ -24,4 +24,7 @@ database:
         name: mongo
 
 environments:
+    ruby:
+        sass:    latest
+        compass: latest
     symfony: false

@@ -1,5 +1,5 @@
 class app::env {
-    if $symfony == true {
+    if $symfony == 'true' {
         include app::env::symfony
     }
 

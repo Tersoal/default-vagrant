@@ -27,7 +27,7 @@ class app::env::symfony {
     }
 
     exec {"manage-database":
-        require => [Package["php5-cli"], Class["app::database::mysql"]],
+        require => [Package["php5-cli"]],
         command => "/bin/bash -c 'cd $vhostpath/$vhost.$domain && sh scripts/update_doctrine_dev.sh'",
         onlyif  => "/usr/bin/test -f '$vhostpath/$vhost.$domain/scripts/update_doctrine_dev.sh'",
     }
