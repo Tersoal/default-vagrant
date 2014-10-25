@@ -10,6 +10,7 @@ class xdebug (
   $remote_connect_back  = $xdebug::params::remote_connect_back,
   $remote_log           = $xdebug::params::remote_log,
   $idekey               = $xdebug::params::idekey,
+  $max_nesting_level    = $xdebug::params::max_nesting_level,
 ) inherits xdebug::params {
   $zend_extension_module = $xdebug::params::zend_extension_module
 

@@ -7,10 +7,10 @@ class xdebug::params {
       $zend_extension_module = 'xdebug.so'
     }
     'Debian', 'Ubuntu': {
-      $ini_file_path = '/etc/php5/conf.d/xdebug_config.ini'
+      $ini_file_path = '/etc/php5/mods-available/xdebug.ini'
       $package = 'php5-xdebug'
       $php = 'php5-cli'
-      $zend_extension_module = '/usr/lib64/php/modules/xdebug.so'
+      $zend_extension_module = 'xdebug.so'
     }
   }
 
@@ -23,4 +23,5 @@ class xdebug::params {
   $remote_connect_back = '0'
   $remote_log          = false
   $idekey              = ''
+  $max_nesting_level   = '500'
 }
