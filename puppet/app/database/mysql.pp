@@ -1,12 +1,6 @@
 class app::database::mysql {
-    $override_options = {
-        'mysqld' => {
-            'bind_address' => "$ip"
-        }
-    }
     class { "mysql::server":
         root_password    => $mysql_rootpassword,
-        override_options => $override_options,
     }
 
     mysql_user { 'root@%':
