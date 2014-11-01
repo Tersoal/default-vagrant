@@ -20,7 +20,7 @@ class xdebug::params {
   $remote_host         = 'localhost'
   $remote_port         = '9000'
   $remote_autostart    = '1'
-  $remote_connect_back = '0'
+  $remote_connect_back = '1'
   $remote_log          = false
   $idekey              = ''
   $max_nesting_level   = '500'
