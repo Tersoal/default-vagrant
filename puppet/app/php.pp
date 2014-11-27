@@ -1,31 +1,42 @@
 class app::php {
+    exec {'apt-update-php':
+      require => Exec['add-apt-repository'],
+      command => '/usr/bin/apt-get update',
+    }
+
     package {
         [
+            "php5-dev",
             "php5-cli",
             "php5-intl",
             "php5-curl",
             "php5-mcrypt",
+            "php5-mysql",
+            "php5-pgsql",
 #            "php5-memcached",
             "php-pear",
         ]:
-        ensure => present,
-        notify => Service['nginx'],
+        require => Exec['apt-update-php'],
+        ensure  => present,
+        notify  => Service['nginx'],
     }
 
-    if $mysql_is_defined == 'true' {
-        package {
-            "php5-mysql":
-                ensure => present,
-                notify => Service['nginx'],
-        }
+    exec { 'pecl install mongo':
+        require => Package['php5-dev', 'php-pear'],
+        command => 'pecl install mongo',
+        unless => 'pecl info mongo'
     }
 
-    if $postgresql_is_defined == 'true' {
-        package {
-            "php5-pgsql":
-                ensure => present,
-                notify => Service['nginx'],
-        }
+    file { '/etc/php5/mods-available/mongo.ini':
+        content=> 'extension=mongo.so',
+        require => Exec['pecl install mongo']
+    }
+
+    file { '/etc/php5/cli/conf.d/20-mongo.ini':
+        ensure => 'link',
+        target => '/etc/php5/mods-available/mongo.ini',
+        require => File['/etc/php5/mods-available/mongo.ini'],
+        notify => Service['nginx']
     }
 
     class { 'xdebug':

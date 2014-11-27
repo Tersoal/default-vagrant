@@ -7,16 +7,20 @@
 
 This box contains the following:
 * PHP-FPM 5.6 with the following extensions:
+    - php5-dev
     - php5-cli
     - php5-intl
     - php5-curl
     - php5-mcrypt
     - php-pear
+    - php5-mysql
+    - php5-pgsql
+    - php5-mongo
 * Nginx with SSL support
 * MySQL
 * phpMyAdmin
 * PostgreSQL
-* MongoDB *(The php-mongo driver is not available yet; there are some troubles with the PHP-5.6)*
+* MongoDB
 * Composer
 * XDebug
 
