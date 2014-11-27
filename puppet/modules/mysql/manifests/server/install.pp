@@ -1,9 +1,19 @@
 #
 class mysql::server::install {
+  exec {"add-mysql-apt-repository":
+    require => Package["python-software-properties"],
+    command => "add-apt-repository ppa:ondrej/mysql-5.6",
+  }
+
+  exec {"apt-update-mysql":
+    require => Exec["add-mysql-apt-repository"],
+    command => "/usr/bin/apt-get update",
+  }
 
   package { 'mysql-server':
-    ensure => $mysql::server::package_ensure,
-    name   => $mysql::server::package_name,
+    require => Exec["apt-update-mysql"],
+    ensure  => $mysql::server::package_ensure,
+    name    => $mysql::server::package_name,
   }
 
   # Build the initial databases.
