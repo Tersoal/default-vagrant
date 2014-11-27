@@ -5,6 +5,9 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.box = parameters['virtual_machine']['box']
+    config.vm.provider :virtualbox do |vb|
+        vb.name = parameters['virtual_machine']['vhost'] + "." + parameters['virtual_machine']['domain']
+    end
 
     config.vm.host_name = parameters['virtual_machine']['vhost'] + "." + parameters['virtual_machine']['domain']
     config.hostsupdater.aliases = ["phpmyadmin." + parameters['virtual_machine']['domain']]
