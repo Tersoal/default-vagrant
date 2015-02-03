@@ -30,6 +30,11 @@ ENVIRONMENTS
 ------------
 * Symfony (launches some useful commands about **cache and logs permissions** or about **Doctrine** when the machine is booting)
 * Ruby (contains **Sass** and **Compass**; by default they are installed, but if you want to customize the version you can do it easily seeing the configuration below)
+* **Node.js**, you can also choose your favorite version (stable, latest or concrete one). It comes with the following preinstalled packages:
+    - Npm
+    - Bower
+    - Grunt-cli
+    - Gulp
 
 Prerequisites
 -------------
@@ -53,15 +58,15 @@ extension, modifying the values with your favorite preferences. The following co
 
 ```
 virtual_machine:
-    vhost:      app
-    domain:     localhost
-    vhostpath:  /var/www
-    ip:         192.168.10.42
-    port:       8080
-    use_nfs:    true
-    box:        precise64
-    cpu:        1
-    memory:     512
+    vhost:     app
+    domain:    localhost
+    vhostpath: /var/www
+    ip:        192.168.10.42
+    port:      8080
+    use_nfs:   true
+    box:       precise64
+    cpu:       1
+    memory:    512
 
 database:
     mysql:
@@ -80,6 +85,7 @@ database:
     redis: true
 
 environments:
+    nodejs: stable
     ruby:
         sass:    latest
         compass: latest
