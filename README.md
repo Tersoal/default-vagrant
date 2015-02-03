@@ -16,11 +16,13 @@ This box contains the following:
     - php5-mysql
     - php5-pgsql
     - php5-mongo
+    - php5-redis
 * Nginx with SSL support
 * MySQL
 * phpMyAdmin
 * PostgreSQL
 * MongoDB
+* Redis
 * Composer
 * XDebug
 
@@ -75,6 +77,7 @@ database:
         name:         postgresql-database
     mongodb:
         name: mongo
+    redis: true
 
 environments:
     ruby:

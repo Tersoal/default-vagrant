@@ -62,6 +62,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         mongodb_db_name    = ''
     end
 
+    if defined?(parameters['database']['redis']) && (parameters['database']['redis'] != '') && (parameters['database']['redis'] != nil) then
+        redis_is_defined = 'true'
+    else
+        redis_is_defined = 'false'
+    end
+
     if defined?(parameters['environments']['ruby']['sass']) && (parameters['environments']['ruby']['sass'] != '') && (parameters['environments']['ruby']['sass'] != nil) && (parameters['environments']['ruby']['sass'] != 'latest')
     then
         sass_version = parameters['environments']['ruby']['sass']
@@ -112,6 +118,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
             "mongodb_is_defined"   => mongodb_is_defined,
             "mongodb_db_name"      => mongodb_db_name,
+
+            "redis_is_defined"   => redis_is_defined,
 
             "sass_version"    => sass_version,
             "compass_version" => compass_version,

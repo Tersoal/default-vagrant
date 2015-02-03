@@ -11,6 +11,13 @@ class app::php::fpm {
         notify  => Service["php5-fpm", "nginx"],
     }
 
+    file { '/etc/php5/fpm/conf.d/20-redis.ini':
+        ensure => 'link',
+        target => '/etc/php5/mods-available/redis.ini',
+        require => [Package["php5-fpm"], File['/etc/php5/mods-available/redis.ini']],
+        notify  => Service["php5-fpm", "nginx"],
+    }
+
     file {'/etc/php5/fpm/conf.d/my-php.ini':
         ensure  => 'present',
         owner   => root,

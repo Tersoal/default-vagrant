@@ -1,7 +1,11 @@
 class app::php {
+    exec {'add-php-apt-repository':
+        require => Package['python-software-properties'],
+        command => 'add-apt-repository ppa:ufirst/php',
+    }
     exec {'apt-update-php':
-      require => Exec['add-apt-repository'],
-      command => '/usr/bin/apt-get update',
+        require => Exec['add-apt-repository'],
+        command => '/usr/bin/apt-get update',
     }
 
     package {
@@ -36,6 +40,24 @@ class app::php {
         ensure => 'link',
         target => '/etc/php5/mods-available/mongo.ini',
         require => File['/etc/php5/mods-available/mongo.ini'],
+        notify => Service['nginx']
+    }
+
+    exec { 'pecl install redis':
+        require => Package['php5-dev', 'php-pear'],
+        command => 'pecl install redis',
+        unless => 'pecl info redis'
+    }
+
+    file { '/etc/php5/mods-available/redis.ini':
+        content=> 'extension=redis.so',
+        require => Exec['pecl install redis']
+    }
+
+    file { '/etc/php5/cli/conf.d/20-redis.ini':
+        ensure => 'link',
+        target => '/etc/php5/mods-available/redis.ini',
+        require => File['/etc/php5/mods-available/redis.ini'],
         notify => Service['nginx']
     }
 

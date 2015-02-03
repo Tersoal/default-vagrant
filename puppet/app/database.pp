@@ -22,6 +22,10 @@ class app::database {
           require  => Class['mongodb::server'],
       }
     }
+
+    if $redis_is_defined == 'true' {
+        include app::database::redis
+    }
 }
 
 import "database/*.pp"
