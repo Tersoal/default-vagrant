@@ -35,6 +35,7 @@ ENVIRONMENTS
     - Bower
     - Grunt-cli
     - Gulp
+* **Golang** which contains **Revel** web framework.
 
 Prerequisites
 -------------
@@ -86,6 +87,7 @@ database:
 
 environments:
     nodejs: stable
+    golang: 1.4
     ruby:
         sass:    latest
         compass: latest

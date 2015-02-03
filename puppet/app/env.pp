@@ -3,8 +3,12 @@ class app::env {
         include app::env::symfony
     }
 
-    if ($nodejs_version != 'false') {
+    if $nodejs_version != 'false' {
         include app::env::node
+    }
+
+    if $golang_version != 'false' {
+        include app::env::go
     }
 
     include app::env::ruby
