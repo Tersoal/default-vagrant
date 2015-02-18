@@ -292,6 +292,7 @@ class mysql::params {
       'thread_stack'          => '256K',
       'tmpdir'                => $mysql::params::tmpdir,
       'user'                  => 'mysql',
+      'sql-mode'              => 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION',
     },
     'mysqldump'             => {
       'max_allowed_packet'  => '16M',
