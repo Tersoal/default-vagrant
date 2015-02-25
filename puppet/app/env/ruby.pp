@@ -1,11 +1,7 @@
 class app::env::ruby {
-    exec {'apt-get-update':
-        command => '/usr/bin/apt-get update',
-    }
-
     exec { 'install ruby':
         command => '/usr/bin/apt-get install ruby1.9.3 -y',
-        require => Exec['apt-get-update'],
+        require => Exec['apt_update'],
     }
 
     package { 'sass':
