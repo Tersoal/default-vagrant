@@ -151,7 +151,7 @@ class mysql::params {
       # mysql::bindings
       $java_package_name   = 'libmysql-java'
       $perl_package_name   = 'libdbd-mysql-perl'
-      $php_package_name    = 'php5-mysql'
+      $php_package_name    = 'php7.0-mysql'
       $python_package_name = 'python-mysqldb'
       $ruby_package_name   = $::lsbdistcodename ? {
         'trusty'           => 'ruby-mysql',
@@ -203,7 +203,7 @@ class mysql::params {
       # mysql::bindings
       $java_package_name   = 'databases/mysql-connector-java'
       $perl_package_name   = 'p5-DBD-mysql'
-      $php_package_name    = 'php5-mysql'
+      $php_package_name    = 'php7.0-mysql'
       $python_package_name = 'databases/py-MySQLdb'
       $ruby_package_name   = 'databases/ruby-mysql'
       # The libraries installed by these packages are included in client and server packages, no installation required.

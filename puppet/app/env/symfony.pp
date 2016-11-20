@@ -17,7 +17,7 @@ class app::env::symfony {
     }
 
     exec {"clear-symfony-cache":
-        require => [Package["php5-cli"], Exec['change-permissions']],
+        require => [Package["php7.0-cli"], Exec['change-permissions']],
         command =>"/bin/bash -c 'cd $vhostpath/$vhost.$domain && /usr/bin/php app/console cache:clear --env=dev && /usr/bin/php app/console cache:clear --env=test'",
     }
 
@@ -27,7 +27,7 @@ class app::env::symfony {
     }
 
     exec {"manage-database":
-        require => [Package["php5-cli"]],
+        require => [Package["php7.0-cli"]],
         command => "/bin/bash -c 'cd $vhostpath/$vhost.$domain && sh scripts/update_doctrine_dev.sh'",
         onlyif  => "/usr/bin/test -f '$vhostpath/$vhost.$domain/scripts/update_doctrine_dev.sh'",
     }

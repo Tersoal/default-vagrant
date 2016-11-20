@@ -7,9 +7,9 @@ class xdebug::params {
       $zend_extension_module = 'xdebug.so'
     }
     'Debian', 'Ubuntu': {
-      $ini_file_path = '/etc/php5/mods-available/xdebug.ini'
-      $package = 'php5-xdebug'
-      $php = 'php5-cli'
+      $ini_file_path = '/etc/php/7.0/mods-available/xdebug.ini'
+      $package = 'php7.0-xdebug'
+      $php = 'php7.0-cli'
       $zend_extension_module = 'xdebug.so'
     }
   }

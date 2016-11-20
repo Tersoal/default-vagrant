@@ -10,14 +10,15 @@ class app::php {
 
     package {
         [
-            "php5-dev",
-            "php5-cli",
-            "php5-intl",
-            "php5-curl",
-            "php5-mcrypt",
-            "php5-mysql",
-            "php5-pgsql",
-#            "php5-memcached",
+            "php7.0-dev",
+            "php7.0-fpm",
+            "php7.0-cli",
+            "php7.0-intl",
+            "php7.0-curl",
+            "php7.0-mcrypt",
+            "php7.0-mysql",
+            "php7.0-pgsql",
+#            "php7.0-memcached",
             "php-pear",
         ]:
         require => Exec['apt-update-php'],
@@ -26,39 +27,69 @@ class app::php {
     }
 
     exec { 'pecl install mongo':
-        require => Package['php5-dev', 'php-pear'],
+        require => Package['php7.0-dev', 'php-pear'],
         command => 'pecl install mongo',
         unless => 'pecl info mongo'
     }
 
-    file { '/etc/php5/mods-available/mongo.ini':
+    file { '/etc/php/7.0/mods-available/mongo.ini':
         content=> 'extension=mongo.so',
         require => Exec['pecl install mongo']
     }
 
-    file { '/etc/php5/cli/conf.d/20-mongo.ini':
+    file { '/etc/php/7.0/cli/conf.d/20-mongo.ini':
         ensure => 'link',
-        target => '/etc/php5/mods-available/mongo.ini',
-        require => File['/etc/php5/mods-available/mongo.ini'],
+        target => '/etc/php/7.0/mods-available/mongo.ini',
+        require => File['/etc/php/7.0/mods-available/mongo.ini'],
         notify => Service['nginx']
     }
 
+    file { '/etc/php/7.0/fpm/conf.d/20-mongo.ini':
+        ensure => 'link',
+        target => '/etc/php/7.0/mods-available/mongo.ini',
+        require => [Package["php7.0-fpm"], File['/etc/php/7.0/mods-available/mongo.ini']],
+        notify  => Service["php7.0-fpm", "nginx"],
+    }
+
     exec { 'pecl install redis':
-        require => Package['php5-dev', 'php-pear'],
+        require => Package['php7.0-dev', 'php-pear'],
         command => 'pecl install redis',
         unless => 'pecl info redis'
     }
 
-    file { '/etc/php5/mods-available/redis.ini':
+    file { '/etc/php/7.0/mods-available/redis.ini':
         content=> 'extension=redis.so',
         require => Exec['pecl install redis']
     }
 
-    file { '/etc/php5/cli/conf.d/20-redis.ini':
+    file { '/etc/php/7.0/cli/conf.d/20-redis.ini':
         ensure => 'link',
-        target => '/etc/php5/mods-available/redis.ini',
-        require => File['/etc/php5/mods-available/redis.ini'],
+        target => '/etc/php/7.0/mods-available/redis.ini',
+        require => File['/etc/php/7.0/mods-available/redis.ini'],
         notify => Service['nginx']
+    }
+
+    file { '/etc/php/7.0/fpm/conf.d/20-redis.ini':
+        ensure => 'link',
+        target => '/etc/php/7.0/mods-available/redis.ini',
+        require => [Package["php7.0-fpm"], File['/etc/php/7.0/mods-available/redis.ini']],
+        notify  => Service["php7.0-fpm", "nginx"],
+    }
+
+    file {'/etc/php/7.0/fpm/conf.d/my-php.ini':
+        ensure  => 'present',
+        owner   => root,
+        group   => root,
+        source  => '/vagrant/files/etc/php7/fpm/conf.d/my-php.ini',
+        require => [Package["php7.0-fpm"]],
+        notify  => Service["php7.0-fpm", "nginx"],
+    }
+
+    service { "php7.0-fpm":
+        ensure     => running,
+        hasrestart => true,
+        hasstatus  => true,
+        require    => [Package["php7.0-fpm"]],
     }
 
     class { 'xdebug':
@@ -68,13 +99,9 @@ class app::php {
         remote_host      => 'localhost',
         remote_port      => '9000',
         remote_autostart => '1',
-        require => [Package["php5-cli"]],
+        require => [Package["php7.0-cli"]],
         notify => Service['nginx'],
     }
 
-    include app::php::fpm
-
     include composer
 }
-
-import "php/*.pp"

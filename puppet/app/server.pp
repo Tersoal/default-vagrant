@@ -29,7 +29,7 @@ class app::server {
         www_root            => "$vhostpath/$vhost.$domain/web",
         location            => '~ \.php$',
         proxy               => undef,
-        fastcgi             => "unix:/var/run/php5-fpm.sock",
+        fastcgi             => "unix:/var/run/php/php7.0-fpm.sock",
         location_cfg_append => {
             include => 'fastcgi_params',
         }
@@ -50,7 +50,7 @@ class app::server {
         www_root        => "$vhostpath/$vhost.$domain/web",
         location        => '~ ^/(app|app_dev|app_test)\.php(/|$)',
         proxy           => undef,
-        fastcgi         => "unix:/var/run/php5-fpm.sock",
+        fastcgi         => "unix:/var/run/php/php7.0-fpm.sock",
         location_cfg_append => {
             fastcgi_connect_timeout => '3m',
             fastcgi_read_timeout    => '3m',
@@ -60,13 +60,13 @@ class app::server {
         }
     }
 
-    file {'/etc/nginx/conf.d/php5-fpm.nginx.conf':
+    file {'/etc/nginx/conf.d/php7-fpm.nginx.conf':
         ensure  => present,
         owner   => root,
         group   => root,
-        content => template('/vagrant/files/etc/nginx/conf.d/php5-fpm.nginx.conf'),
+        content => template('/vagrant/files/etc/nginx/conf.d/php7-fpm.nginx.conf'),
         require => [File['/etc/nginx/conf.d/']],
-        notify  => Service['php5-fpm', 'nginx'],
+        notify  => Service['php7.0-fpm', 'nginx'],
     }
 
     nginx::resource::vhost { "phpmyadmin.$domain":
@@ -86,7 +86,7 @@ class app::server {
         www_root            => "/usr/share/phpmyadmin",
         vhost               => "phpmyadmin.$domain",
         location            => '~ .php$',
-        fastcgi             => "unix:/var/run/php5-fpm.sock",
+        fastcgi             => "unix:/var/run/php/php7.0-fpm.sock",
         location_cfg_append => {
             fastcgi_split_path_info => '^(.+\.php)(/.+)$',
             fastcgi_index           => 'index.php',

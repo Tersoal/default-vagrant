@@ -24,7 +24,7 @@ class app::tools {
 
     exec {'add-apt-repository':
         before  => Class['app::php'],
-        command => 'sudo add-apt-repository ppa:ondrej/php5-5.6',
+        command => 'sudo add-apt-repository ppa:ondrej/php',
         require => Package['python-software-properties']
     }
 }

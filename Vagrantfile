@@ -4,6 +4,10 @@ parameters = YAML.load_file 'parameters.yml'
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+    if Vagrant.has_plugin?("vagrant-vbguest")
+      config.vbguest.auto_update = false
+    end
+
     config.vm.box = parameters['virtual_machine']['box']
     config.vm.provider :virtualbox do |vb|
         vb.name = parameters['virtual_machine']['vhost'] + "." + parameters['virtual_machine']['domain']
