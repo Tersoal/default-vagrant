@@ -18,6 +18,7 @@ class app::php {
             "php7.0-mcrypt",
             "php7.0-mysql",
             "php7.0-pgsql",
+            "php7.0-gd",
 #            "php7.0-memcached",
             "php-pear",
         ]:
@@ -26,28 +27,33 @@ class app::php {
         notify  => Service['nginx'],
     }
 
-    exec { 'pecl install mongo':
+    exec { 'install pkg-config':
         require => Package['php7.0-dev', 'php-pear'],
-        command => 'pecl install mongo',
-        unless => 'pecl info mongo'
+        command => 'apt-get install pkg-config'
     }
 
-    file { '/etc/php/7.0/mods-available/mongo.ini':
-        content=> 'extension=mongo.so',
-        require => Exec['pecl install mongo']
+    exec { 'pecl install mongodb':
+        require => [Package['php7.0-dev', 'php-pear'], Exec['install pkg-config']],
+        command => 'pecl install mongodb',
+        unless => 'pecl info mongodb'
     }
 
-    file { '/etc/php/7.0/cli/conf.d/20-mongo.ini':
+    file { '/etc/php/7.0/mods-available/mongodb.ini':
+        content=> 'extension=mongodb.so',
+        require => Exec['pecl install mongodb']
+    }
+
+    file { '/etc/php/7.0/cli/conf.d/20-mongodb.ini':
         ensure => 'link',
-        target => '/etc/php/7.0/mods-available/mongo.ini',
-        require => File['/etc/php/7.0/mods-available/mongo.ini'],
+        target => '/etc/php/7.0/mods-available/mongodb.ini',
+        require => File['/etc/php/7.0/mods-available/mongodb.ini'],
         notify => Service['nginx']
     }
 
-    file { '/etc/php/7.0/fpm/conf.d/20-mongo.ini':
+    file { '/etc/php/7.0/fpm/conf.d/20-mongodb.ini':
         ensure => 'link',
-        target => '/etc/php/7.0/mods-available/mongo.ini',
-        require => [Package["php7.0-fpm"], File['/etc/php/7.0/mods-available/mongo.ini']],
+        target => '/etc/php/7.0/mods-available/mongodb.ini',
+        require => [Package["php7.0-fpm"], File['/etc/php/7.0/mods-available/mongodb.ini']],
         notify  => Service["php7.0-fpm", "nginx"],
     }
 
